@@ -3,6 +3,7 @@ import Movies from './pages/movies';
 import Trail from './pages/tcss.jsx/trail';
 import './App.css';
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import MovieDetails from './pages/moviedetails';
 
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
     },
     {
       path: "/trail/movies", element: <Movies />
+    },
+    {
+      path: "/movies/:id", element: <MovieDetails />
     }
 
   ])
