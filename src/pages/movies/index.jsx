@@ -1,57 +1,37 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import MovieCard from "../../components/movieCard/MovieCard";
-import Trending from "../../components/trending/Trending";
+import React, { useState } from "react";
+import Trending from "../../components/movieSections/trending/Trending";
+import MovieListTabBar from "../../components/tabs/MovieListTab";
+import NowPlaying from "../../components/movieSections/movieLists/NowPlaying";
+import Popular from "../../components/movieSections/movieLists/Popular";
+import TopRated from "../../components/movieSections/movieLists/TopRated";
+import Upcoming from "../../components/movieSections/movieLists/Upcoming";
+import DiscoverMovies from "../../components/movieSections/movieLists/DiscoverMovies";
+import HeroSearchBar from "../../components/searchInput/SearchBar";
 
 
 
 const Movies = () => {
-    // Define the API URL
-    const API_URL = "https://api.themoviedb.org/3";
-
-    // Function to fetch movies from the API
-    const fetchMovies = async () => {
-        try {
-            // Send GET request to the API
-            const response = await axios.get(`${API_URL}/discover/movie`, {
-                params: {
-                    api_key: process.env.REACT_APP_MOVIE_API_KEY
-                }
-            });
-            // Set the fetched movies in state
-            setMovies(response.data.results);
-        } catch (error) {
-            console.error("Error fetching movies:", error);
-        }
-    };
-
-    // State to store the fetched movies
-    const [movies, setMovies] = useState([]);
-
-    // Fetch movies when the component mounts
-    useEffect(() => {
-        fetchMovies();
-    }, []);
+    const [activeTab, setActiveTab] = useState('now_playing')
 
     return (
         // Main container for the movies page
         <>
+            <HeroSearchBar />
             <main className="container mx-auto mt-20 px-20">
                 {/* Section for trending movies */}
-                < section >
-                    {/* Heading for the section */}
-                    < h2 className="text-dark text-lg mb-4">Discover Movies</h2>
-                    {/* Container for trending movies with horizontal scroll */}
-                    <div className="flex overflow-x-scroll">
-                        {/* Map through the movies array to display each movie card */}
-                        {movies.map(movie => (
-                            <MovieCard key={movie.id} movie={movie} />
-                        ))}
-                    </div>
+                < section className="bg-gray-100">
+                    < DiscoverMovies />
                 </section >
                 {/* Add other sections for Popular, Top rated, Best Trailers, and Free to watch movies here */}
-                < section className="mt-10">
+                < section className="mt-10 bg-gray-100">
                     <Trending />
+                </section >
+                < section className="mt-10 bg-gray-100">
+                    <MovieListTabBar activeTab={activeTab} setActiveTab={setActiveTab} />
+                    {activeTab === 'now_playing' && <NowPlaying />}
+                    {activeTab === 'popular' && <Popular />}
+                    {activeTab === 'top_rated' && <TopRated />}
+                    {activeTab === 'upcoming' && <Upcoming />}
                 </section >
             </main >
         </>
@@ -60,85 +40,3 @@ const Movies = () => {
 };
 
 export default Movies;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import MovieCard from "../../components/movieCard/MovieCard";
-// import SearchBar from "../../components/searchInput/SearchBar";
-
-
-// const Movies = () => {
-//     const API_URL = "https://api.themoviedb.org/3";
-
-//     // Fetch movies from API
-//     const fetchMovies = async () => {
-//         try {
-//             const response = await axios.get(`${API_URL}/discover/movie`, {
-//                 params: {
-//                     api_key: process.env.REACT_APP_MOVIE_API_KEY
-//                 }
-//             });
-//             setMovies(response.data.results);
-//         } catch (error) {
-//             console.error("Error fetching movies:", error);
-//         }
-//     };
-
-//     // initialize the movies variable to empty array
-//     const [movies, setMovies] = useState([]);
-
-//     useEffect(() => {
-//         fetchMovies();
-//     }, []);
-
-//     return (
-//         <>
-//             <div>Hello Movies</div>
-//             <SearchBar />
-//             <div className="flex overflow-x: auto">
-//                 {movies.map((movie) => (
-//                     <MovieCard key={movie.id} movie={movie} />
-//                 ))}
-//             </div>
-
-//         </>
-//     );
-// };
-
-// export default Movies;
